@@ -18,14 +18,21 @@ LCURLY : '{';
 RCURLY : '}';
 
 ID  :
-  ('a'..'z' | 'A'..'Z')+;
+  [a-zA-Z][a-zA-Z0-9]*; // Antigo -> ('a'..'z' | 'A'..'Z')+;
 
 WS_ : (' ' | '\n' ) -> skip;
 
 SL_COMMENT : '//' (~'\n')* '\n' -> skip;
 
-CHAR : '\'' (ESC|~'\'') '\'';
-STRING : '"' (ESC|~'"')* '"';
+CHAR : '\'' (ESC|ASCII) '\''; // Antigo -> CHAR : '\'' (ESC|~'\'') '\'';
+STRING : '"' (ESC|ASCII)* '"'; // Antigo -> STRING : '"' (ESC|~'"')* '"';
 
 fragment
-ESC :  '\\' ('n'|'"');
+ESC :  '\\' ('n'|'"'|'t'|'\\'|'\''); // -> Antigo '\\' ('n'|'"'); 
+
+// -------------------------------- Novos a baixo----------------
+
+IF: 'if';
+
+fragment
+ESCII: [a-zA-Z0-9 !#-&(-/:-@^-'{-~];
