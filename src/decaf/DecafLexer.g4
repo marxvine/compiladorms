@@ -14,25 +14,87 @@ tokens
   TK_class
 }
 
+TK_class: 'class Program';
+
 LCURLY : '{';
+
 RCURLY : '}';
 
-ID  :
-  [a-zA-Z][a-zA-Z0-9]*; // Antigo -> ('a'..'z' | 'A'..'Z')+;
+VIRGULA : ',';
 
-WS_ : (' ' | '\n' ) -> skip;
+PONTVIRGULA : ';';
+
+ECOLC :'[';
+
+DCOLC :']';
+
+EPAR: '(';
+
+DPAR: ')';
+
+ATRIB :'=';
+
+OP_ARITH: '*'|'/'|'%';
+
+MAIS: '+';
+
+MENOS: '-';
+
+EXCAMACAO: '!';
+
+OP_RELACIO: '<'|'>'|'<='|'>=';
+
+OP_EQUID: '=='|'!=';
+
+OP_COND: '&&'|'||';
+
+BREAK : 'break';
+
+CALLOUT: 'callout';
+
+CONTINUE: 'continue';
+
+RETURN: 'return';
+
+TIPO : 'boolean'|'int';
+
+VOID : 'void';
+
+BOOLEAN : VALORBOOLEAN;
+
+fragment
+VALORBOOLEAN : 'true'|'false';
+
+IF : 'if';
+
+FOR: 'for';
+
+ELSE: 'else';
+
+fragment
+CONTEUDOCHAR: (' '..'!' | '#'..'&' | '('..'[' | ']'..'~');
+
+fragment
+LETRAS : ('a'..'z' | 'A'..'Z');
+
+fragment
+DIGITOS: ('0'..'9');
+
+fragment
+HEXADECIMAL: (DIGITOS|'a'..'f'|'A'..'F')+;
+
+ID  : ('_'|LETRAS)(LETRAS|DIGITOS|'_')*;
+
+INTLITERAL : '0x'(HEXADECIMAL)+|(DIGITOS)+;
+
+fragment
+ESC :  '\\' ('\\' | '\"' | '\'' | 't' | 'n');
+
+CHAR : '\'' (CONTEUDOCHAR|LETRAS|ESC) '\'';
+
+STRING : '"' (CONTEUDOCHAR+|LETRAS+|ESC)* '"';
+
+WS_ : (' ' | '\n' | '\t' ) -> skip;
 
 SL_COMMENT : '//' (~'\n')* '\n' -> skip;
 
-CHAR : '\'' (ESC|ASCII) '\''; // Antigo -> CHAR : '\'' (ESC|~'\'') '\'';
-STRING : '"' (ESC|ASCII)* '"'; // Antigo -> STRING : '"' (ESC|~'"')* '"';
-
-fragment
-ESC :  '\\' ('n'|'"'|'t'|'\\'|'\''); // -> Antigo '\\' ('n'|'"'); 
-
-// -------------------------------- Novos a baixo----------------
-
-IF: 'if';
-
-fragment
-ESCII: [a-zA-Z0-9 !#-&(-/:-@^-'{-~];
